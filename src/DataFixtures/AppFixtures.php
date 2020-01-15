@@ -56,10 +56,5 @@ class AppFixtures extends Fixture
         // un nombre sur 4 digit au hasard :
         $nombre = mt_rand(1000,9999);
         return $lettre.$nombre;
- 
-
-
-
-
     }
 }

@@ -1,0 +1,14 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{parent()}} - Update flight {% endblock %}
+
+{% block body %}
+    <div class="container">
+        <div class="row justify-content-center">
+        <h3 class="my-5 col-8">Modifier le vol n° {{ flight.number }}</h3>
+            <div class="col-8">
+                {{ form(myform) }}
+            </div>
+        </div>
+    </div>
+{% endblock %}

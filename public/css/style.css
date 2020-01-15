@@ -1,0 +1,14 @@
+header{
+    height: 200px;
+    background-image: url(../img/1200x300.jpg);
+    background-size: cover;
+    background-position: 0 center;
+}
+
+.complet{
+    color: orangered;
+}
+
+.promo{
+    color: green;
+}
