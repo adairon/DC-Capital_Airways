@@ -4,11 +4,20 @@ namespace App\DataFixtures;
 
 use App\Entity\City;
 use App\Entity\Flight;
+use App\Service\FlightService;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\Persistence\ObjectManager;
 
 class AppFixtures extends Fixture
 {
+
+    private $flightservice;
+
+    function __construct(FlightService $flightservice)
+    {
+        $this->flightservice = $flightservice;
+    }
+
     public function load(ObjectManager $manager)
     {
         // --alimenter la table City en utilisant l'entité City :
@@ -26,7 +35,7 @@ class AppFixtures extends Fixture
         $flight = new Flight();
         $flight 
             //on attribue le numéro de vol avec la fonction créée :
-            -> setNumber($this -> getFlightNumber())
+            -> setNumber($this->flightservice->getFlightNumber())
             // horaire uniquement en format hh:mm
             -> setSchedule(\DateTime::createFromFormat('H:i', '08:00'))
             -> setSeat(28)
@@ -43,18 +52,18 @@ class AppFixtures extends Fixture
      * fonction pour créer le numéro de vol : 2 lettres et 4 chiffres aléatoires :
      * @return string
      */
-    public function getFlightNumber():string{
-        // créé un tableau avec toutes les lettres en majuscule de A à Z :
-        $lettres = range('A', 'Z'); 
-        // mélange les lettres aléatoirement :
-        shuffle($lettres); 
-        //extrait le 1er item du tableau : 
-        $lettre = array_shift($lettres);
-        //on recommence et on concatenne :
-        shuffle($lettres);
-        $lettre .= array_shift($lettres);
-        // un nombre sur 4 digit au hasard :
-        $nombre = mt_rand(1000,9999);
-        return $lettre.$nombre;
-    }
+    // public function getFlightNumber():string{
+    //     // créé un tableau avec toutes les lettres en majuscule de A à Z :
+    //     $lettres = range('A', 'Z'); 
+    //     // mélange les lettres aléatoirement :
+    //     shuffle($lettres); 
+    //     //extrait le 1er item du tableau : 
+    //     $lettre = array_shift($lettres);
+    //     //on recommence et on concatenne :
+    //     shuffle($lettres);
+    //     $lettre .= array_shift($lettres);
+    //     // un nombre sur 4 digit au hasard :
+    //     $nombre = mt_rand(1000,9999);
+    //     return $lettre.$nombre;
+    // }
 }

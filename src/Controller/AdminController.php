@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Flight;
 use App\Form\FlightType;
 use App\Repository\FlightRepository;
+use App\Service\FlightService;
 use Symfony\Component\Form\FormError;
 use Doctrine\Persistence\ObjectManager;
 use Symfony\Component\HttpFoundation\Request;
@@ -27,7 +28,7 @@ class AdminController extends AbstractController
     /**
      * @Route("/admin/new", name="admin_new")
      */
-    public function new(Request $request) 
+    public function new(Request $request, FlightService $flightservice) 
     {
         // instance de l'entité Flight à alimenter avec le formulaire.
         $flight = new Flight();
@@ -45,7 +46,7 @@ class AdminController extends AbstractController
         }*/
 
         //on donne un numéro de vol aléatoire
-        $flight->setNumber($this->getFlightNumber());
+        $flight->setNumber($flightservice->getFlightNumber());
 
         // on enregistre les données du formulaire (aussi l'objet Flight)
         if($form->isSubmitted() && $form->isValid()) {
@@ -101,18 +102,18 @@ class AdminController extends AbstractController
      * fonction pour créer le numéro de vol : 2 lettres et 4 chiffres aléatoires :
      * @return string
      */
-    public function getFlightNumber():string{
-        // créé un tableau avec toutes les lettres en majuscule de A à Z :
-        $lettres = range('A', 'Z'); 
-        // mélange les lettres aléatoirement :
-        shuffle($lettres); 
-        //extrait le 1er item du tableau : 
-        $lettre = array_shift($lettres);
-        //on recommence et on concatenne :
-        shuffle($lettres);
-        $lettre .= array_shift($lettres);
-        // un nombre sur 4 digit au hasard :
-        $nombre = mt_rand(1000,9999);
-        return $lettre.$nombre;
-    }
+    // public function getFlightNumber():string{
+    //     // créé un tableau avec toutes les lettres en majuscule de A à Z :
+    //     $lettres = range('A', 'Z'); 
+    //     // mélange les lettres aléatoirement :
+    //     shuffle($lettres); 
+    //     //extrait le 1er item du tableau : 
+    //     $lettre = array_shift($lettres);
+    //     //on recommence et on concatenne :
+    //     shuffle($lettres);
+    //     $lettre .= array_shift($lettres);
+    //     // un nombre sur 4 digit au hasard :
+    //     $nombre = mt_rand(1000,9999);
+    //     return $lettre.$nombre;
+    // }
 }
